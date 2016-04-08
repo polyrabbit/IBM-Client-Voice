@@ -10,6 +10,9 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 class Tweet(models.Model):
+    class Meta:
+        db_table = 'tweet'
+
     id = models.BigIntegerField(primary_key=True)
     author = models.BigIntegerField()
     created_at = models.DateTimeField()
