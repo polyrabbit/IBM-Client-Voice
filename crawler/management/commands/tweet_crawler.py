@@ -1,12 +1,11 @@
 # coding: utf-8
 from __future__ import unicode_literals, absolute_import
-import json
+import time
 
 from django.core.management import BaseCommand
 from django.db.models import Max, Min
 import tweepy
-from tweet.models import Tweet
-import pytz
+from tweet.models import Tweet, User
 
 consumer_key = 'xocke92ayr1SCD2n0MMX3jkPI'
 consumer_secret = 'JA22R5GvyBSo05yE6WGB1RtVJupEMp8H46qcSiq02hfe00i93v'
@@ -25,31 +24,35 @@ class Command(BaseCommand):
     help = "Crawl tweet of IBM Client Voices, parse it and store to DB"
 
     def add_arguments(self, parser):
-        parser.add_argument('historical', nargs='+', type=int)
+        parser.add_argument("--older", action="store_true", dest="older", default=False)
 
     def handle(self, *args, **options):
-        if 'historical' in args:
-            return self.historical_update()
-        since_id = Tweet.objects.filter().aggregate(max_id=Max('id')).get('max_id') or 1
-        public_tweets = tweepy.Cursor(api.user_timeline, id='IBMclientvoices', since_id=since_id).items()
-        self.save_tweet(public_tweets)
+        if options.get('older'):
+            return self.update_older()
+        return self.update_newer()
 
-    def historical_update(self):
-        oldest_id = Tweet.objects.filter().aggregate(min_id=Min('id')).get('min_id') or 0
-        public_tweets = tweepy.Cursor(api.user_timeline, id='IBMclientvoices', max_id=oldest_id).items()
-        self.save_tweet(public_tweets)
+    def update_newer(self):
+        since_id = Tweet.objects.filter().aggregate(max_id=Max('id')).get('max_id') or 10000
+        public_tweets = api.user_timeline(id='IBMclientvoices', since_id=since_id, count=20)
+        if public_tweets:
+            self.save_tweets(public_tweets)
+            time.sleep(2)  # Pause for Rate Limitation
+            self.update_newer()
+
+    def update_older(self):
+        oldest_id = Tweet.objects.filter().aggregate(min_id=Min('id')).get('min_id')
+        if not oldest_id:
+            public_tweets = api.user_timeline(id='IBMclientvoices')
+        else:
+            public_tweets = api.user_timeline(id='IBMclientvoices', count=20, max_id=oldest_id-1)
+        if public_tweets:
+            self.save_tweets(public_tweets)
+            self.update_older()
 
     def save_tweets(self, public_tweets):
         for tweet in public_tweets:
-            if Tweet.objects.filter(id=tweet.id).exists():
-                return
-            entities = tweet.entities
-            tweet_model = Tweet(id=tweet.id,
-                                author=tweet.author.id,
-                                created_at=pytz.UTC.localize(tweet.created_at),
-                                text=tweet.text,
-                                user_mentions=[u['id'] for u in entities['user_mentions']],
-                                hashtags=[h['text'] for h in entities['hashtags']],
-                                urls=[u['expanded_url'] for u in entities['urls']])
-            tweet_model.save()
+            User.from_tweepy(tweet.author)
+            for u in tweet.entities['user_mentions']:
+                User.from_dict(u, api.get_user)
+            Tweet.from_tweepy(tweet)
             print tweet.text.encode('utf8')

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals, absolute_import
 import logging
 
+import pytz
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.fields import ArrayField
@@ -23,3 +24,18 @@ class Tweet(models.Model):
 
     def __str__(self):
         return self.text.encode('utf-8')
+
+    @classmethod
+    def from_tweepy(cls, tweepy):
+        if cls.objects.filter(id=tweepy.id).exists():
+            return cls.objects.get(pk=tweepy.id)
+        entities = tweepy.entities
+        tweet_model = cls(id=tweepy.id,
+                            author=tweepy.author.id,
+                            created_at=pytz.UTC.localize(tweepy.created_at),
+                            text=tweepy.text,
+                            user_mentions=[u['id'] for u in entities['user_mentions']],
+                            hashtags=[h['text'] for h in entities['hashtags']],
+                            urls=[u['expanded_url'] for u in entities['urls']])
+        tweet_model.save()
+        return tweet_model
