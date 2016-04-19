@@ -23,7 +23,8 @@ router.register(r'users', views.UserViewSet)
 router.register(r'tweets', views.TweetViewSet)
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^api/', include(router.urls)),
     # url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
