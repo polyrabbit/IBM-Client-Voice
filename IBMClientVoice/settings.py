@@ -87,11 +87,11 @@ WSGI_APPLICATION = 'IBMClientVoice.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': '9.123.255.57',
+        'HOST': 'localhost',
         'PORT': 5432,
-        'NAME': 'client',
-        'USER': 'joe',
-        'PASSWORD': 'voice',
+        'NAME': 'ibm_client_voice',  # create database ibm_client_voice;
+        'USER': 'client',  # CREATE USER client WITH PASSWORD 'voice';
+        'PASSWORD': 'voice',  # GRANT ALL PRIVILEGES ON DATABASE "ibm_client_voice" to client;
     }
 }
 
