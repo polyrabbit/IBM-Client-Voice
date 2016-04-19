@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 class User(models.Model):
     class Meta:
         db_table = 'tweet_user'
+        ordering = ['-id']
 
     id = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=100)
@@ -23,8 +24,8 @@ class User(models.Model):
     followers_count = models.IntegerField(default=int)
     urls = ArrayField(models.URLField(), default=list)
 
-    def __str__(self):
-        return self.name.encode('utf-8')
+    def __unicode__(self):
+        return self.name
 
     @classmethod
     def from_tweepy(cls, tweepy):

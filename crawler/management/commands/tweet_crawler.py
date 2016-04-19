@@ -33,11 +33,8 @@ class Command(BaseCommand):
 
     def update_newer(self):
         since_id = Tweet.objects.filter().aggregate(max_id=Max('id')).get('max_id') or 10000
-        public_tweets = api.user_timeline(id='IBMclientvoices', since_id=since_id, count=20)
-        if public_tweets:
-            self.save_tweets(public_tweets)
-            time.sleep(2)  # Pause for Rate Limitation
-            self.update_newer()
+        public_tweets = list(tweepy.Cursor(api.user_timeline, id='IBMclientvoices', since_id=since_id).items())
+        self.save_tweets(reversed(public_tweets))
 
     def update_older(self):
         oldest_id = Tweet.objects.filter().aggregate(min_id=Min('id')).get('min_id')
@@ -54,5 +51,5 @@ class Command(BaseCommand):
             User.from_tweepy(tweet.author)
             for u in tweet.entities['user_mentions']:
                 User.from_dict(u, api.get_user)
-            Tweet.from_tweepy(tweet)
-            print tweet.text.encode('utf8')
+            t = Tweet.from_tweepy(tweet)
+            print t.text.encode('utf8')
