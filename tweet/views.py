@@ -13,10 +13,13 @@ logger = logging.getLogger(__name__)
 class IndexView(TemplateView):
     template_name = 'index.html'
 
+
 class TweetViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
-    queryset = Tweet.objects.all().order_by('-id')
     serializer_class = TweetSerializer
+
+    def get_queryset(self):
+        return Tweet.objects.filter(text__icontains=self.request.GET.get('text', '')).order_by('-id')
 
 
 class UserViewSet(viewsets.ModelViewSet):

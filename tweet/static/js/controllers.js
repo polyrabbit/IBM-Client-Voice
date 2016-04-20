@@ -1,9 +1,14 @@
 angular.module('IBMClientVoice', ['ionic'])
-    .controller("ListCtrl", ["$scope", function ($scope) {
-        $scope.tasks = [
-            {title: 'Collect coins'},
-            {title: 'Eat mushrooms'},
-            {title: 'Get high enough to grab the flag'},
-            {title: 'Find the Princess'}
-        ];
+    .controller("ListCtrl", ['$http', "$scope", function ($http, $scope) {
+        $scope.query = {};
+
+        $scope.update_tweet = function() {
+            $http.get('/api/tweets/', {
+                params: $scope.query,
+            }).success(function (data) {
+                $scope.tweets = data.results;
+            }).error(function () {
+                alert("Error fetching tweet list");
+            });
+        }
     }])

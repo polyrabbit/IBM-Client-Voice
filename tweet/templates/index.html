@@ -6,7 +6,7 @@
     <title>IBM Client Voice</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 
-    <link href="{% static 'css/ionic/ionic.css' %}" rel="stylesheet">
+    <link href="{% static 'css/ionic.css' %}" rel="stylesheet">
 
     <script src="{% static 'js/ionic/ionic.bundle.js' %}"></script>
 
@@ -16,19 +16,24 @@
     <!-- Needed for Cordova/PhoneGap (will be a 404 during development) -->
     <script src="cordova.js"></script>
 </head>
-<body ng-app="IBMClientVoice"  ng-controller="ListCtrl">
+<body ng-app="IBMClientVoice" ng-controller="ListCtrl">
 {% verbatim %}
 <ion-side-menus>
-
     <!-- Center content -->
     <ion-side-menu-content>
-        <ion-header-bar class="bar-dark">
-            <h1 class="title">Todo</h1>
-        </ion-header-bar>
+            <div class="bar bar-header item-input-inset">
+                <label class="item-input-wrapper">
+                    <i class="icon ion-ios-search placeholder-icon"></i>
+                    <input type="search" placeholder="Search" ng-model="query.text" ng-init="update_tweet()" ng-change="update_tweet()"/>
+                </label>
+                <button class="button button-clear">
+                    Cancel
+                </button>
+            </div>
         <ion-content>
             <ion-list>
-                <ion-item ng-repeat="task in tasks">
-                    {{ task.title }}
+                <ion-item ng-repeat="tweet in tweets">
+                    {{ tweet.text }}
                 </ion-item>
             </ion-list>
         </ion-content>

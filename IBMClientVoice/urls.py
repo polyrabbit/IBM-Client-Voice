@@ -19,8 +19,8 @@ from rest_framework import routers
 from tweet import views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'tweets', views.TweetViewSet)
+router.register(r'users', views.UserViewSet, base_name='user')
+router.register(r'tweets', views.TweetViewSet, base_name='tweet')
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
