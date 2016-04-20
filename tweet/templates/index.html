@@ -21,19 +21,35 @@
 <ion-side-menus>
     <!-- Center content -->
     <ion-side-menu-content>
-            <div class="bar bar-header item-input-inset">
-                <label class="item-input-wrapper">
-                    <i class="icon ion-ios-search placeholder-icon"></i>
-                    <input type="search" placeholder="Search" ng-model="query.text" ng-init="update_tweet()" ng-change="update_tweet()"/>
-                </label>
-                <button class="button button-clear">
-                    Cancel
-                </button>
-            </div>
+        <div class="bar bar-header item-input-inset">
+            <label class="item-input-wrapper">
+                <i class="icon ion-ios-search placeholder-icon"></i>
+                <input type="search" placeholder="Search"
+                       ng-model="query.text"
+                       ng-model-options="{debounce: 500}"
+                       ng-init="update_tweet()"
+                       ng-change="update_tweet()"/>
+            </label>
+            <button class="button button-clear" ng-click="query={}">
+                Cancel
+            </button>
+        </div>
         <ion-content>
             <ion-list>
                 <ion-item ng-repeat="tweet in tweets">
                     {{ tweet.text }}
+                    <div class="row">
+                        <button class="button button-small button-outline button-positive"
+                                ng-repeat="tag in tweet.hashtags" ng-click="query.hashtag='{{ tag }}';update_tweet()">
+                            {{ tag }}
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button class="button button-small button-outline button-positive"
+                                ng-repeat="tag in tweet.hashtags" ng-click="query.hashtag='{{ tag }}';update_tweet()">
+                            {{ tag }}
+                        </button>
+                    </div>
                 </ion-item>
             </ion-list>
         </ion-content>

@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 class TweetSerializer(serializers.HyperlinkedModelSerializer):
+    users = serializers.CharField(source='get_user_mentions', read_only=True)
+
     class Meta:
         model = Tweet
 

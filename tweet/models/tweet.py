@@ -38,7 +38,7 @@ class Tweet(models.Model):
         if cls.objects.filter(id=tweepy.id).exists():
             return cls.objects.get(pk=tweepy.id)
         entities = tweepy.entities
-        tweet_model = cls(id=tweepy.id,
+        tweet_obj = cls(id=tweepy.id,
                             author=tweepy.author.id,
                             created_at=pytz.UTC.localize(tweepy.created_at),
                             text=unescape(tweepy.text),
@@ -46,5 +46,10 @@ class Tweet(models.Model):
                             hashtags=[h['text'] for h in entities['hashtags']] if 'hashtags' in entities else [],
                             media_urls=[m['media_url'] for m in entities['media']] if 'media' in entities else [],
                             urls=[u['expanded_url'] for u in entities['urls']] if 'urls' in entities else [])
-        tweet_model.save()
-        return tweet_model
+        tweet_obj.save()
+        return tweet_obj
+
+    @property
+    def get_user_mentions(self):
+        from .user import User
+        return User.objects.filter(id__in=self.user_mentions).all()

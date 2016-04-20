@@ -19,7 +19,13 @@ class TweetViewSet(viewsets.ModelViewSet):
     serializer_class = TweetSerializer
 
     def get_queryset(self):
-        return Tweet.objects.filter(text__icontains=self.request.GET.get('text', '')).order_by('-id')
+        queryset = Tweet.objects.order_by('-id')
+        params = self.request.GET
+        if 'text' in params:
+            queryset = queryset.filter(text__icontains=params.get('text', ''))
+        if 'hashtag' in params:
+            queryset = queryset.filter(hashtags__icontains=params.get('hashtag', ''))
+        return queryset
 
 
 class UserViewSet(viewsets.ModelViewSet):
