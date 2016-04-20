@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
         'PORT': 5432,
-        'NAME': 'ibm_client_voice',  # create database ibm_client_voice;
+        'NAME': 'ibm_client_voice',  # create database ibm_client_voice WITH ENCODING='UTF8' CONNECTION LIMIT=-1;
         'USER': 'client',  # CREATE USER client WITH PASSWORD 'voice';
         'PASSWORD': 'voice',  # GRANT ALL PRIVILEGES ON DATABASE "ibm_client_voice" to client;
     }
