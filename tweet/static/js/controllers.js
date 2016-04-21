@@ -27,3 +27,17 @@ angular.module('IBMClientVoice', ['ngRoute', 'ionic'])
             }
         }
     }])
+    .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+        $routeProvider
+          .when('/tweets', {
+              templateUrl: 'tweet-list.html',
+              controller: 'ListCtrl'
+          })
+          .when('/users/:username', {
+              templateUrl: 'user.html',
+              controller: 'UserCtrl'
+          });
+
+        // configure html5
+        $locationProvider.html5Mode(true);
+    }
