@@ -1,0 +1,35 @@
+{% verbatim %}
+<div class="list card">
+
+    <div class="item item-avatar">
+        <img src="{{ user.profile_image_url }}">
+
+        <h2>{{ user.name }}</h2>
+
+        <p>{{ user.description }}</p>
+
+        <p>
+            <i class="icon ion-ios-heart subdued assertive"> </i> {{ user.followers_count }}
+        </p>
+        <p>
+            <i class="icon ion-home"> {{ user.location }} </i>
+        </p>
+    </div>
+
+    <div class="item item-body">
+        <img class="full-image" src="delorean.jpg">
+
+        <p>
+            This is a "Facebook" styled Card. The header is created from a Thumbnail List item,
+            the content is from a card-body consisting of an image and paragraph text. The footer
+            consists of tabs, icons aligned left, within the card-footer.
+        </p>
+
+        <p>
+            <a href="#" class="subdued">1 Like</a>
+            <a href="#" class="subdued">5 Comments</a>
+        </p>
+    </div>
+
+</div>
+{% endverbatim %}

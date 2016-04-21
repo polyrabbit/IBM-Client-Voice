@@ -9,7 +9,7 @@
 //
 //            $routeProvider.when('/register', {
 //                controller: 'ListCtrl',
-//                templateUrl: '/tweet_list.html'
+//                templateUrl: '/tweet-list.html'
 //            }).otherwise('/');
 //        }]);
 //})();

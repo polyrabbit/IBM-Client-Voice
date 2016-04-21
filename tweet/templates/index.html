@@ -16,61 +16,12 @@
     <script src="{% static 'js/services.js' %}"></script>
     <!-- Needed for Cordova/PhoneGap (will be a 404 during development) -->
     <script src="cordova.js"></script>
+    <base href="/">
 </head>
-<body ng-app="IBMClientVoice" ng-controller="ListCtrl">
+<body ng-app="IBMClientVoice">
 {% verbatim %}
 <ion-side-menus ng-view>
     <!-- Center content -->
-    <ion-side-menu-content>
-        <div class="bar bar-header item-input-inset">
-            <label class="item-input-wrapper">
-                <i class="icon ion-ios-search placeholder-icon"></i>
-                <input type="search" placeholder="Search"
-                       ng-model="query.text"
-                       ng-model-options="{debounce: 500}"
-                       ng-init="update_tweet()"
-                       ng-change="update_tweet()"/>
-            </label>
-            <button class="button button-clear" ng-click="query.text=''; update_tweet()">
-                Cancel
-            </button>
-        </div>
-        <ion-content>
-            <ion-header-bar>
-                <div class="row">
-                    <button class="button button-small button-outline button-positive"
-                            ng-click="remove_hashtag('{{ tag }}')" ng-repeat="tag in query.hashtags">
-                        {{ tag }}
-                    </button>
-                </div>
-            </ion-header-bar>
-            <ion-list>
-                <ion-item ng-repeat="tweet in tweets">
-                    {{ tweet.text }}
-                    <div class="row">
-                        <button class="button button-small button-outline button-positive"
-                                ng-repeat="tag in tweet.hashtags" ng-click="add_hashtag('{{ tag }}')">
-                            {{ tag }}
-                        </button>
-                    </div>
-                    <div class="row">
-                        <button class="button button-small button-outline button-balanced"
-                                ng-repeat="user in tweet.users">
-                            {{ user.name }}
-                        </button>
-                    </div>
-                </ion-item>
-            </ion-list>
-        </ion-content>
-    </ion-side-menu-content>
-
-    <!-- Left menu -->
-    <ion-side-menu side="left">
-        <ion-header-bar class="bar-dark">
-            <h1 class="title">Projects</h1>
-        </ion-header-bar>
-    </ion-side-menu>
-
 </ion-side-menus>
 {% endverbatim %}
 </body>

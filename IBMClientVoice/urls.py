@@ -23,7 +23,8 @@ router.register(r'users', views.UserViewSet, base_name='user')
 router.register(r'tweets', views.TweetViewSet, base_name='tweet')
 
 urlpatterns = [
-    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^$', views.TemplateProvider.as_view(), {'template': 'index'}, name='index'),
+    url(r'^templates/(?P<template>[\w-]+)$', views.TemplateProvider.as_view(), name='templates'),
     url(r'^api/', include(router.urls)),
     # url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

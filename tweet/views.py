@@ -10,8 +10,10 @@ from .serializers import TweetSerializer, UserSerializer
 logger = logging.getLogger(__name__)
 
 
-class IndexView(TemplateView):
-    template_name = 'index.html'
+class TemplateProvider(TemplateView):
+
+    def get_template_names(self):
+        return [self.kwargs['template']+'.html']
 
 
 class TweetViewSet(viewsets.ModelViewSet):
