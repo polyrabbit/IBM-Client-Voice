@@ -22,7 +22,7 @@ class Tweet(models.Model):
         ordering = ['-id']
 
     id = models.BigIntegerField(primary_key=True)
-    author = models.BigIntegerField()
+    author = models.ForeignKey('User')
     created_at = models.DateTimeField()
     text = models.CharField(max_length=200)
     user_mentions = ArrayField(models.BigIntegerField())
@@ -39,7 +39,7 @@ class Tweet(models.Model):
             return cls.objects.get(pk=tweepy.id)
         entities = tweepy.entities
         tweet_obj = cls(id=tweepy.id,
-                            author=tweepy.author.id,
+                            author_id=tweepy.author.id,
                             created_at=pytz.UTC.localize(tweepy.created_at),
                             text=unescape(tweepy.text),
                             user_mentions=[u['id'] for u in entities['user_mentions']] if 'user_mentions' in entities else [],
@@ -50,6 +50,6 @@ class Tweet(models.Model):
         return tweet_obj
 
     @property
-    def get_user_mentions(self):
+    def users(self):
         from .user import User
-        return User.objects.filter(id__in=self.user_mentions).all()
+        return User.objects.filter(id__in=self.user_mentions)

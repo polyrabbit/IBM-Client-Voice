@@ -30,24 +30,32 @@
                        ng-init="update_tweet()"
                        ng-change="update_tweet()"/>
             </label>
-            <button class="button button-clear" ng-click="query={}">
+            <button class="button button-clear" ng-click="query.text=''; update_tweet()">
                 Cancel
             </button>
         </div>
         <ion-content>
+            <ion-header-bar>
+                <div class="row">
+                    <button class="button button-small button-outline button-positive"
+                            ng-click="remove_hashtag('{{ tag }}')" ng-repeat="tag in query.hashtags">
+                        {{ tag }}
+                    </button>
+                </div>
+            </ion-header-bar>
             <ion-list>
                 <ion-item ng-repeat="tweet in tweets">
                     {{ tweet.text }}
                     <div class="row">
                         <button class="button button-small button-outline button-positive"
-                                ng-repeat="tag in tweet.hashtags" ng-click="query.hashtag='{{ tag }}';update_tweet()">
+                                ng-repeat="tag in tweet.hashtags" ng-click="add_hashtag('{{ tag }}')">
                             {{ tag }}
                         </button>
                     </div>
                     <div class="row">
-                        <button class="button button-small button-outline button-positive"
-                                ng-repeat="tag in tweet.hashtags" ng-click="query.hashtag='{{ tag }}';update_tweet()">
-                            {{ tag }}
+                        <button class="button button-small button-outline button-balanced"
+                                ng-repeat="user in tweet.users">
+                            {{ user.name }}
                         </button>
                     </div>
                 </ion-item>

@@ -23,8 +23,8 @@ class TweetViewSet(viewsets.ModelViewSet):
         params = self.request.GET
         if 'text' in params:
             queryset = queryset.filter(text__icontains=params.get('text', ''))
-        if 'hashtag' in params:
-            queryset = queryset.filter(hashtags__icontains=params.get('hashtag', ''))
+        if 'hashtags' in params:
+            queryset = queryset.filter(hashtags__contains=params.getlist('hashtags', []))
         return queryset
 
 
