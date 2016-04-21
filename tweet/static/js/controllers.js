@@ -1,4 +1,4 @@
-angular.module('IBMClientVoice', ['ionic'])
+angular.module('IBMClientVoice', ['ngRoute', 'ionic'])
     .controller("ListCtrl", ['$http', "$scope", function ($http, $scope) {
         $scope.query = {};
         $scope.query.hashtags = [];
