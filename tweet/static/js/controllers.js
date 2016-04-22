@@ -1,27 +1,29 @@
 'use strict';
-angular.module('IBMClientVoice', ['ngRoute', 'ionic'])
-    .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-        $routeProvider
-            .when('/tweets', {
+angular.module('IBMClientVoice', ['ionic'])
+    .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('tweet-list', {
+                url: '/tweets',
                 templateUrl: 'templates/tweet-list',
                 controller: 'ListCtrl'
             })
-            .when('/users/:id', {
+            .state('user-detail', {
+                url: '/users/:id',
                 templateUrl: 'templates/user-detail',
                 controller: 'UserDetailCtrl'
             })
-            .otherwise({redirectTo: '/tweets'});
 
-        //$locationProvider.html5Mode(true);
-        //$locationProvider.hashPrefix('!');
+        $urlRouterProvider.otherwise('tweets');
     }])
-    .controller("ListCtrl", ['$http', "$scope", function ($http, $scope) {
-        $scope.query = {};
-        $scope.query.hashtags = [];
+    .controller("ListCtrl", ['$http', '$scope', function ($http, $scope) {
+        $scope.query = {
+            text: '',
+            hashtags: []
+        };
 
         $scope.update_tweet = function () {
             $http.get('/api/tweets/', {
-                params: $scope.query,
+                params: $scope.query
             }).success(function (data) {
                 $scope.tweets = data.results;
             }).error(function () {
@@ -43,11 +45,11 @@ angular.module('IBMClientVoice', ['ngRoute', 'ionic'])
             }
         };
     }])
-    .controller('UserDetailCtrl', ['$http', '$scope', '$routeParams', function($http, $scope, $routeParams) {
-        $http.get('/api/users/' + $routeParams.id + '/')
+    .controller('UserDetailCtrl', ['$http', '$scope', '$state', '$stateParams', function($http, $scope, $state, $stateParams) {
+        $http.get('/api/users/' + $stateParams.id + '/')
             .success(function (data) {
                 $scope.user = data;
             }).error(function () {
-                alert("Error fetching user" + $routeParams.id);
+                alert("Error fetching user" + $stateParams.id);
             });
     }]);

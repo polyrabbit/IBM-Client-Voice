@@ -9,20 +9,22 @@
     <link href="{% static 'css/ionic.css' %}" rel="stylesheet">
 
     <script src="{% static 'js/ionic/ionic.bundle.js' %}"></script>
-    <script src="{% static 'js/angular/angular-route.js' %}"></script>
 
     <script src="{% static 'js/controllers.js' %}"></script>
     <script src="{% static 'js/routes.js' %}"></script>
     <script src="{% static 'js/services.js' %}"></script>
     <!-- Needed for Cordova/PhoneGap (will be a 404 during development) -->
-    <script src="cordova.js"></script>
+{#    <script src="cordova.js"></script>#}
     <base href="/">
 </head>
 <body ng-app="IBMClientVoice">
 {% verbatim %}
-<ion-side-menus ng-view>
-    <!-- Center content -->
-</ion-side-menus>
+<ion-nav-bar></ion-nav-bar>
+<ion-nav-view>
+    <ion-view view-title="IBM Client Voice">
+
+</ion-view>
+</ion-nav-view>
 {% endverbatim %}
 </body>
 </html>
