@@ -1,5 +1,18 @@
 {% verbatim %}
-<ion-head-bar class="bar-positive nav-title-slide-ios7">
+<ion-header-bar class="bar-positive nav-title-slide-ios7">
+    <label class="item-input-wrapper title">
+        <i class="icon ion-ios-search placeholder-icon"></i>
+        <input type="search" placeholder="Search"
+               ng-model="query.text"
+               ng-model-options="{debounce: 500}"
+               ng-change="update_tweet()"/>
+    </label>
+
+    <div class="buttons">
+        <button class="button button-icon ion-search"></button>
+    </div>
+</ion-header-bar>
+<ion-header-bar class="bar-subheader">
     <div class="bar bar-header item-input-inset">
         <label class="item-input-wrapper">
             <i class="icon ion-ios-search placeholder-icon"></i>
@@ -18,7 +31,7 @@
             {{ tag }}
         </button>
     </div>
-</ion-head-bar>
+</ion-header-bar>
 <ion-view view-title="IBM Client Voice">
     <ion-content>
         <ion-list ng-init="update_tweet()">

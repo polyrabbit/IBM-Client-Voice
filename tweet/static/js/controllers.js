@@ -1,7 +1,7 @@
 'use strict';
 angular.module('IBMClientVoice', ['ionic'])
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('tweets-list');
+        $urlRouterProvider.otherwise('tweets');
         $stateProvider
             .state('tweet-list', {
                 url: '/tweets',
@@ -49,6 +49,6 @@ angular.module('IBMClientVoice', ['ionic'])
             .success(function (data) {
                 $scope.user = data;
             }).error(function () {
-                alert("Error fetching user" + $stateParams.id);
+                alert("Error fetching user: " + $stateParams.id);
             });
     }]);
