@@ -1,5 +1,5 @@
 {% verbatim %}
-<ion-header-bar>
+<ion-head-bar class="bar-positive nav-title-slide-ios7">
     <div class="bar bar-header item-input-inset">
         <label class="item-input-wrapper">
             <i class="icon ion-ios-search placeholder-icon"></i>
@@ -18,24 +18,26 @@
             {{ tag }}
         </button>
     </div>
-</ion-header-bar>
-<ion-content>
-    <ion-list ng-init="update_tweet()">
-        <ion-item ng-repeat="tweet in tweets">
-            {{ tweet.text }}
-            <div class="row">
-                <button class="button button-small button-outline button-positive"
-                        ng-repeat="tag in tweet.hashtags" ng-click="add_hashtag('{{ tag }}')">
-                    {{ tag }}
-                </button>
-            </div>
-            <div class="row">
-                <a ui-sref="user-detail({id: user.id})" class="button button-small button-outline button-balanced"
-                   ng-repeat="user in tweet.users">
-                    {{ user.name }}
-                </a>
-            </div>
-        </ion-item>
-    </ion-list>
-</ion-content>
+</ion-head-bar>
+<ion-view view-title="IBM Client Voice">
+    <ion-content>
+        <ion-list ng-init="update_tweet()">
+            <ion-item ng-repeat="tweet in tweets">
+                {{ tweet.text }}
+                <div class="row">
+                    <button class="button button-small button-outline button-positive"
+                            ng-repeat="tag in tweet.hashtags" ng-click="add_hashtag('{{ tag }}')">
+                        {{ tag }}
+                    </button>
+                </div>
+                <div class="row">
+                    <a ui-sref="user-detail({id: user.id})" class="button button-small button-outline button-balanced"
+                       ng-repeat="user in tweet.users">
+                        {{ user.name }}
+                    </a>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
 {% endverbatim %}

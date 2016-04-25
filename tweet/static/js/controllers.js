@@ -1,6 +1,7 @@
 'use strict';
 angular.module('IBMClientVoice', ['ionic'])
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('tweets-list');
         $stateProvider
             .state('tweet-list', {
                 url: '/tweets',
@@ -12,8 +13,6 @@ angular.module('IBMClientVoice', ['ionic'])
                 templateUrl: 'templates/user-detail',
                 controller: 'UserDetailCtrl'
             });
-
-        $urlRouterProvider.otherwise('tweets-list');
     }])
     .controller("TweetListCtrl", ['$http', '$scope', function ($http, $scope) {
         $scope.query = {
