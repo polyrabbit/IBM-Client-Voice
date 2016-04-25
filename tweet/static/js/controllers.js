@@ -5,17 +5,17 @@ angular.module('IBMClientVoice', ['ionic'])
             .state('tweet-list', {
                 url: '/tweets',
                 templateUrl: 'templates/tweet-list',
-                controller: 'ListCtrl'
+                controller: 'TweetListCtrl'
             })
             .state('user-detail', {
                 url: '/users/:id',
                 templateUrl: 'templates/user-detail',
                 controller: 'UserDetailCtrl'
-            })
+            });
 
-        $urlRouterProvider.otherwise('tweets');
+        $urlRouterProvider.otherwise('tweets-list');
     }])
-    .controller("ListCtrl", ['$http', '$scope', function ($http, $scope) {
+    .controller("TweetListCtrl", ['$http', '$scope', function ($http, $scope) {
         $scope.query = {
             text: '',
             hashtags: []
